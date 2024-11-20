@@ -19,7 +19,7 @@
 // For commercial licensing, see <https://www.artifex.com/> or contact
 // Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
 // CA 94129, USA, for further information.
-import * as mupdf from "mupdf";
+import * as mupdf from "./mupdf";
 // convenience methods for the mupdf.js migration
 // see: https://mupdfjs.readthedocs.io/en/latest/how-to-guide/migration/index.html
 export function loadPDF(data) {

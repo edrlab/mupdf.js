@@ -1,4 +1,4 @@
-import { Pointer } from "./mupdf-wasm.js";
+type Pointer<T> = any // TODO !!!!
 type Matrix = [number, number, number, number, number, number];
 type Rect = [number, number, number, number];
 type Quad = [number, number, number, number, number, number, number, number];

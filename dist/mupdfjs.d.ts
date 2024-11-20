@@ -1,4 +1,4 @@
-import * as mupdf from "mupdf";
+import * as mupdf from "./mupdf";
 export declare const Rect: {
     MIN_INF_RECT: number;
     MAX_INF_RECT: number;

@@ -19,7 +19,7 @@
 // For commercial licensing, see <https://www.artifex.com/> or contact
 // Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
 // CA 94129, USA, for further information.
-import * as mupdf from "mupdf";
+import * as mupdf from "./mupdf.js";
 export const Rect = mupdf.Rect;
 export const Matrix = mupdf.Matrix;
 export class Buffer extends mupdf.Buffer {
@@ -66,7 +66,17 @@ export class PDFDocument extends mupdf.PDFDocument {
     // creates a new blank document with one page and adds a font resource, default size is A4 @ 595x842
     static createBlankDocument(width = 595, height = 842) {
         let doc = new mupdf.PDFDocument();
-        let pageObj = doc.addPage([0, 0, width, height], 0, {}, "");
+        let helvetica = doc.newDictionary();
+        helvetica.put("Type", doc.newName("Font"));
+        helvetica.put("Subtype", doc.newName("Type1"));
+        helvetica.put("Name", doc.newName("Helv"));
+        helvetica.put("BaseFont", doc.newName("Helvetica"));
+        helvetica.put("Encoding", doc.newName("WinAnsiEncoding"));
+        let fonts = doc.newDictionary();
+        fonts.put("Helv", helvetica);
+        let resources = doc.addObject(doc.newDictionary());
+        resources.put("Font", fonts);
+        let pageObj = doc.addPage([0, 0, width, height], 0, resources, "BT /Helv ET");
         doc.insertPage(-1, pageObj);
         if (doc instanceof mupdf.PDFDocument) {
             return new PDFDocument(doc.pointer);
@@ -622,10 +632,7 @@ export class PDFPage extends mupdf.PDFPage {
         var extra_contents = doc.addStream(contentStream, {});
         // Add drawing operations to page contents
         var page_contents = page_obj.get("Contents");
-        if (page_contents.isNull()) {
-            page_obj.put("Contents", extra_contents);
-        }
-        else if (page_contents.isArray()) {
+        if (page_contents.isArray()) {
             // Contents is already an array, so append our new buffer object.
             page_contents.push(extra_contents);
         }
@@ -680,10 +687,7 @@ export class PDFPage extends mupdf.PDFPage {
         var extra_contents = doc.addStream(contentStream, null);
         // add drawing operations to page contents
         var page_contents = page_obj.get("Contents");
-        if (page_contents.isNull()) {
-            page_obj.put("Contents", extra_contents);
-        }
-        else if (page_contents.isArray()) {
+        if (page_contents.isArray()) {
             // Contents is already an array, so append our new buffer object.
             page_contents.push(extra_contents);
         }

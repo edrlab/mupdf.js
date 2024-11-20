@@ -24,6 +24,7 @@ emcc -o dist/mupdf-wasm.js -I $MUPDF_DIR/include src/mupdf.c \
 	-sEXPORT_ES6=1 \
 	-sEXPORT_NAME='"libmupdf_wasm"' \
 	-sEXPORTED_RUNTIME_METHODS='["ccall","UTF8ToString","lengthBytesUTF8","stringToUTF8"]' \
+  -sWASM=0 \
 	 $MUPDF_DIR/build/wasm/release/libmupdf.a \
 	 $MUPDF_DIR/build/wasm/release/libmupdf-third.a
 echo
