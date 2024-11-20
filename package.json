@@ -29,7 +29,7 @@
     "dist/tasks.js"
   ],
   "scripts": {
-    "prepare": "bash build.sh"
+    "build": "bash build.sh"
   },
   "devDependencies": {
     "@types/node": "latest",
